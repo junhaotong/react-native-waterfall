@@ -1,11 +1,8 @@
 {
   "name": "react-native-waterfall",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "React Native 瀑布流组件",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/junhaotong/react-native-waterfall.git"
@@ -15,5 +12,11 @@
   "bugs": {
     "url": "https://github.com/junhaotong/react-native-waterfall/issues"
   },
-  "homepage": "https://github.com/junhaotong/react-native-waterfall#readme"
+  "homepage": "https://github.com/junhaotong/react-native-waterfall#readme",
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "prop-types": "^15.6.1",
+    "react": "16.2.0",
+    "react-native": "0.52.0"
+  }
 }
