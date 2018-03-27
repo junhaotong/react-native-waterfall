@@ -23,8 +23,8 @@ class Column extends React.Component {
         keyExtractor: PropTypes.func
     };
 
-    constructor(props) {
-        super(props);
+    constructor( props ) {
+        super( props );
         this.state = {
             height: 0,
             data: []
@@ -55,12 +55,12 @@ class Column extends React.Component {
         return this.state.height;
     }
 
-    addItems(items) {
-        this.setState({data: [...this.state.data, ...items]});
+    addItems( items ) {
+        this.setState( { data: [ ...this.state.data, ...items ] } );
     }
 
     renderItem({item}) {
-        return <Item renderItem={this.props.renderItem} item={item} onLayout={(event) => {
+        return <Item renderItem={this.props.renderItem} item={item} onLayout={( event ) => {
             const { height } = event.nativeEvent.layout;
             this.state.height = this.state.height + height;
             this.setState( { height: this.state.height } );
@@ -108,11 +108,11 @@ export default class Masonry extends React.Component {
         hasMore: true
     };
 
-    constructor(props) {
-        super(props);
+    constructor( props ) {
+        super( props );
         const columns = [];
-        for (let i = 0; i < props.columns; i++) {
-            columns.push(null);
+        for ( let i = 0; i < props.columns; i++ ) {
+            columns.push( null );
         }
         this.state = {
             columns,
@@ -133,16 +133,16 @@ export default class Masonry extends React.Component {
 	 * 添加瀑布流内容
      * @param items
      */
-    addItems(items) {
-        if (items) {
-            if (this.itemQueue.length > 0) {
+    addItems( items ) {
+        if ( items ) {
+            if ( this.itemQueue.length > 0 ) {
                 this.itemQueue = this.itemQueue.concat( items );
             } else {
                 this.itemQueue = this.itemQueue.concat( items );
                 this.addItems();
             }
         } else {
-            if (this.itemQueue.length > 0) {
+            if ( this.itemQueue.length > 0 ) {
                 const item = this.itemQueue.shift();
                 this.addItem( item, () => this.addItems() );
             }
@@ -151,7 +151,7 @@ export default class Masonry extends React.Component {
 
     addItemsWithHeight( items ) {
         // 生成临时 Column 映射
-        const columns = this.sortColumns().map(col => {
+        const columns = this.sortColumns().map( col => {
             return {
                 column: col,
                 height: col.getHeight(),
@@ -161,14 +161,14 @@ export default class Masonry extends React.Component {
 
         // 逐个分配 Item 到最小的 Column 中
         items.forEach( ( item ) => {
-            const col = columns.sort(( a, b ) => a.height - b.height )[0];
+            const col = columns.sort( ( a, b ) => a.height - b.height )[ 0 ];
             col.data.push( item );
             col.height += item.height;
         } );
 
         // 批量添加 Column 的 Items
         columns.forEach( col => {
-            col.column.addItems(col.data);
+            col.column.addItems( col.data );
         } )
     }
 
@@ -181,9 +181,9 @@ export default class Masonry extends React.Component {
     }
 
     addItem( item, callback ) {
-        const minCol = this.sortColumns()[0];
+        const minCol = this.sortColumns()[ 0 ];
         item.onLayout = callback;
-        minCol.addItems([item]);
+        minCol.addItems( [ item ] );
     }
 
     /**
@@ -201,7 +201,7 @@ export default class Masonry extends React.Component {
      * @private
      */
     _onInfinite(event) {
-        if (!this.props.hasMore || this.state.infiniting) return;
+        if (this.props.hasMore || this.state.infiniting) return;
         let y = event.nativeEvent.contentOffset.y;
         let height = event.nativeEvent.layoutMeasurement.height;
         let contentHeight = event.nativeEvent.contentSize.height;
@@ -226,6 +226,8 @@ export default class Masonry extends React.Component {
     }
 
     render() {
+        let loadMore = this.props.infinite ? <LoadMore loading={this.state.infiniting}/> : null;
+
         return <ScrollView
             styles={{height: 300}}
             refreshControl={
@@ -238,19 +240,21 @@ export default class Masonry extends React.Component {
                         progressBackgroundColor="#ffffff"
                     /> : null
             }
-            onScroll={this._onInfinite.bind(this)}
+            onScroll={
+                this.props.infinite ? this._onInfinite.bind(this) : null
+            }
             scrollEventThrottle={100}>
             <View style={[{flexDirection: "row"}, this.props.containerStyle]}>
-                {this.state.columns.map((col, index) => {
+                {this.state.columns.map( ( col, index ) => {
                     return <Column
                         key={index}
                         space={index === 0 ? 0 : this.props.space}
-                        ref={ref => this.state.columns[index] = ref}
+                        ref={ref => this.state.columns[ index ] = ref}
                         keyExtractor={this.props.keyExtractor}
                         renderItem={this.props.renderItem.bind(this)}/>
                 } )}
             </View>
-            <LoadMore loading={this.state.infiniting}/>
+            {loadMore}
         </ScrollView>
     }
 }
