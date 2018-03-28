@@ -1,11 +1,11 @@
 import React from "react";
 import {
-	FlatList,
-	ScrollView,
-	View,
-	ViewPropTypes,
-	RefreshControl,
-	Text
+    FlatList,
+    ScrollView,
+    View,
+    ViewPropTypes,
+    RefreshControl,
+    Text
 } from "react-native";
 
 import PropTypes from "prop-types";
@@ -33,8 +33,8 @@ class Column extends React.Component {
 
     clear() {
         this.setState({
-			data: [],
-			height: 0
+            data: [],
+            height: 0
         });
     }
 
@@ -48,7 +48,7 @@ class Column extends React.Component {
                     renderItem={this.renderItem.bind( this )}
                 />
             </View>
-		)
+        )
     }
 
     getHeight() {
@@ -95,7 +95,9 @@ export default class Masonry extends React.Component {
         infinite: PropTypes.bool,
         refreshing: PropTypes.func,
         infiniting: PropTypes.func,
-        hasMore: PropTypes.bool
+        hasMore: PropTypes.bool,
+        refreshConf: PropTypes.object,
+        renderInfinite: PropTypes.func
     };
 
     static defaultProps = {
@@ -105,7 +107,11 @@ export default class Masonry extends React.Component {
         infinite: true,
         refreshing: () => {},
         infiniting: () => {},
-        hasMore: true
+        hasMore: true,
+        refreshConf: {
+            title: '下拉加载',
+            colors: ['#ff0000', '#00ff00', '#3ad564', '#0000ff']
+        }
     };
 
     constructor( props ) {
@@ -123,35 +129,35 @@ export default class Masonry extends React.Component {
     }
 
     /**
-	 * 清除瀑布流内容
+     * 清除瀑布流内容
      */
     clear() {
         this.state.columns.forEach(col => col.clear());
     }
 
     /**
-	 * 添加瀑布流内容
+     * 添加瀑布流内容
      * @param items
      */
-    addItems( items ) {
-        if ( items ) {
+    addItems(items) {
+        if (items) {
             if ( this.itemQueue.length > 0 ) {
-                this.itemQueue = this.itemQueue.concat( items );
+                this.itemQueue = this.itemQueue.concat(items);
             } else {
-                this.itemQueue = this.itemQueue.concat( items );
+                this.itemQueue = this.itemQueue.concat(items);
                 this.addItems();
             }
         } else {
-            if ( this.itemQueue.length > 0 ) {
+            if (this.itemQueue.length > 0) {
                 const item = this.itemQueue.shift();
-                this.addItem( item, () => this.addItems() );
+                this.addItem(item, () => this.addItems());
             }
         }
     }
 
-    addItemsWithHeight( items ) {
+    addItemsWithHeight(items) {
         // 生成临时 Column 映射
-        const columns = this.sortColumns().map( col => {
+        const columns = this.sortColumns().map(col => {
             return {
                 column: col,
                 height: col.getHeight(),
@@ -160,16 +166,16 @@ export default class Masonry extends React.Component {
         } );
 
         // 逐个分配 Item 到最小的 Column 中
-        items.forEach( ( item ) => {
-            const col = columns.sort( ( a, b ) => a.height - b.height )[ 0 ];
-            col.data.push( item );
+        items.forEach((item) => {
+            const col = columns.sort((a, b) => a.height - b.height)[0];
+            col.data.push(item);
             col.height += item.height;
-        } );
+        });
 
         // 批量添加 Column 的 Items
-        columns.forEach( col => {
-            col.column.addItems( col.data );
-        } )
+        columns.forEach(col => {
+            col.column.addItems(col.data);
+        })
     }
 
     /**
@@ -180,14 +186,14 @@ export default class Masonry extends React.Component {
         return this.state.columns.sort((a, b) => a.getHeight() - b.getHeight());
     }
 
-    addItem( item, callback ) {
-        const minCol = this.sortColumns()[ 0 ];
+    addItem(item, callback) {
+        const minCol = this.sortColumns()[0];
         item.onLayout = callback;
-        minCol.addItems( [ item ] );
+        minCol.addItems([item]);
     }
 
     /**
-	 * 下拉刷新
+     * 下拉刷新
      * @private
      */
     _onRefresh() {
@@ -196,12 +202,12 @@ export default class Masonry extends React.Component {
     }
 
     /**
-	 * 滚动加载
+     * 滚动加载
      * @param event
      * @private
      */
     _onInfinite(event) {
-        if (this.props.hasMore || this.state.infiniting) return;
+        if (this.props.hasMore && this.state.infiniting) return;
         let y = event.nativeEvent.contentOffset.y;
         let height = event.nativeEvent.layoutMeasurement.height;
         let contentHeight = event.nativeEvent.contentSize.height;
@@ -226,35 +232,36 @@ export default class Masonry extends React.Component {
     }
 
     render() {
-        let loadMore = this.props.infinite ? <LoadMore loading={this.state.infiniting}/> : null;
+        let loadMore = this.props.infinite ?
+            (this.props.renderInfinite ? this.props.renderInfinite(this.state.infiniting) : <LoadMore loading={this.state.infiniting}/>)
+            : null;
 
-        return <ScrollView
-            styles={{height: 300}}
-            refreshControl={
-                this.props.refresh ?
-                    <RefreshControl
-                        refreshing={this.state.refreshing}
-                        onRefresh={this._onRefresh.bind(this)}
-                        title="下拉加载"
-                        colors={['#ff0000', '#00ff00', '#3ad564', '#0000ff']}
-                        progressBackgroundColor="#ffffff"
-                    /> : null
-            }
-            onScroll={
-                this.props.infinite ? this._onInfinite.bind(this) : null
-            }
-            scrollEventThrottle={100}>
-            <View style={[{flexDirection: "row"}, this.props.containerStyle]}>
-                {this.state.columns.map( ( col, index ) => {
-                    return <Column
-                        key={index}
-                        space={index === 0 ? 0 : this.props.space}
-                        ref={ref => this.state.columns[ index ] = ref}
-                        keyExtractor={this.props.keyExtractor}
-                        renderItem={this.props.renderItem.bind(this)}/>
-                } )}
-            </View>
-            {loadMore}
-        </ScrollView>
+        return (
+            <ScrollView
+                refreshControl={
+                    this.props.refresh ?
+                        <RefreshControl
+                            refreshing={this.state.refreshing}
+                            onRefresh={this._onRefresh.bind(this)}
+                            {...this.props.refreshConf}
+                        /> : null
+                }
+                onScroll={
+                    this.props.infinite ? this._onInfinite.bind(this) : null
+                }
+                scrollEventThrottle={100}>
+                <View style={[{flexDirection: "row"}, this.props.containerStyle]}>
+                    {this.state.columns.map( ( col, index ) => {
+                        return <Column
+                            key={index}
+                            space={index === 0 ? 0 : this.props.space}
+                            ref={ref => this.state.columns[ index ] = ref}
+                            keyExtractor={this.props.keyExtractor}
+                            renderItem={this.props.renderItem.bind(this)}/>
+                    } )}
+                </View>
+                {loadMore}
+            </ScrollView>
+        )
     }
 }
