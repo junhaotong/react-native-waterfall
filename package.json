@@ -1,8 +1,9 @@
 {
-  "name": "react-native-waterfall",
-  "version": "1.0.0",
+  "name": "react-native-waterfall-layout",
+  "version": "1.0.1",
   "description": "React Native 瀑布流组件",
   "main": "src/index.js",
+  "private": false,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/junhaotong/react-native-waterfall.git"
@@ -13,8 +14,15 @@
     "url": "https://github.com/junhaotong/react-native-waterfall/issues"
   },
   "homepage": "https://github.com/junhaotong/react-native-waterfall#readme",
+  "keywords": [
+     "react-native",
+     "masonry",
+     "pinterest",
+     "grid",
+     "layout",
+     "waterfall"
+   ],
   "dependencies": {
-    "lodash": "^4.17.5",
     "prop-types": "^15.6.1",
     "react": "16.2.0",
     "react-native": "0.52.0"
