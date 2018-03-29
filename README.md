@@ -27,7 +27,7 @@ import Waterfall from 'react-native-waterfall-layout';
 |keyExtractor   |  null             |  Function       |   为给定的item生成一个不重复的key。若不指定此函数，则默认抽取item.key作为key值。若item.key也不存在，则使用数组下标index|
 |refresh         |    true      |         Boolean   |      是否启用下拉刷新|
 |refreshing      |  (done) =>{}   | Function   |     下拉刷新触发该函数，接收一个done函数用于结束刷新|
-|refreshConf     |                 |      Object | 下拉刷新参数，配置详见RefreshControl|
+|refreshConf     |                 |      Object | 下拉刷新参数，配置详见[RefreshControl](https://facebook.github.io/react-native/docs/refreshcontrol.html)|
 |infinite       |       true          |      Boolean  |      是否启用滚动加载|
 |infiniting   |       (done) => {}  |  Function    |    滚动到列表底部触发该函数，接收参数同refreshing|
 |hasMore    |       true          |     Boolean     |   设置为false滚动到列表底部后将不触发infiniting|
@@ -69,4 +69,4 @@ this.refs.waterfall.clear();
 
 
 ### Example
-点击[Demo] ( https://link.jianshu.com/?t=https%3A%2F%2Fgithub.com%2Fjunhaotong%2Freact-native-waterfall%2Fblob%2Fmaster%2Fexample%2Findex.js)
+点击[Demo](https://link.jianshu.com/?t=https%3A%2F%2Fgithub.com%2Fjunhaotong%2Freact-native-waterfall%2Fblob%2Fmaster%2Fexample%2Findex.js)查看
