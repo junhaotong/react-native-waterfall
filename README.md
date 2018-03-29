@@ -18,30 +18,20 @@ $ npm i react-native-waterfall-layout --save
 import Waterfall from 'react-native-waterfall-layout';
 ```
 
-#### Properties
-Prop             |   Default      |     Type         |       Description
-------------------------------------------------------------------------
-columns             2                 Number           瀑布流的列数
-
-space                10                Number           瀑布流每列之间的间隔
-
-renderItem        null              Function          用于自定义瀑布流中每一项的内容
-
-keyExtractor     null               Function          为给定的item生成一个不重复的key。若不指定此函数，则默认抽取item.key作为key值。若item.key也不存在，则使用数组下标index
-
-refresh             true               Boolean         是否启用下拉刷新
-
-refreshing        (done) =>{}    Function        下拉刷新触发该函数，接收一个done函数用于结束刷新
-
-refreshConf                            Object  下拉刷新参数，配置详见RefreshControl
-
-infinite              true                Boolean        是否启用滚动加载
-
-infiniting          (done) => {}    Function        滚动到列表底部触发该函数，接收参数同refreshing
-
-hasMore           true               Boolean        设置为false滚动到列表底部后将不触发infiniting
-
-renderInfinite                         Function       用于自定义滚动加载组件及样式,接收一个loading用于判断是否正在加载
+#### Properties  
+|    Prop       |      Default   |  Type        |  Description             |
+|:-----------------:|:--------------:|:-----------------:|:------------------------------:|
+|    columns      |        2       |  Number      |  瀑布流的列数             |
+|    space        |       10       |  Number      |  瀑布流每列之间的间隔       |
+|    renderIte    |      null      |  Function    |  用于自定义瀑布流中每一项的内容 |
+|keyExtractor   |  null             |  Function       |   为给定的item生成一个不重复的key。若不指定此函数，则默认抽取item.key作为key值。若item.key也不存在，则使用数组下标index|
+|refresh         |    true      |         Boolean   |      是否启用下拉刷新|
+|refreshing      |  (done) =>{}   | Function   |     下拉刷新触发该函数，接收一个done函数用于结束刷新|
+|refreshConf     |                 |      Object | 下拉刷新参数，配置详见RefreshControl|
+|infinite       |       true          |      Boolean  |      是否启用滚动加载|
+|infiniting   |       (done) => {}  |  Function    |    滚动到列表底部触发该函数，接收参数同refreshing|
+|hasMore    |       true          |     Boolean     |   设置为false滚动到列表底部后将不触发infiniting|
+|renderInfinite      |              |     Function  |     用于自定义滚动加载组件及样式,接收一个loading用于判断是否正在加载|
 
 
 
