@@ -4,15 +4,11 @@
 ```
 Preview
 
-<div style="align: center">
-<img src="(https://upload-images.jianshu.io/upload_images/5855162-678fa52f270a341a.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/475"/>
- iOS
-</div>
+![iOS](https://upload-images.jianshu.io/upload_images/5855162-678fa52f270a341a.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/475)
+iOS
 
-<div style="align: center">
-<img src="(https://upload-images.jianshu.io/upload_images/5855162-97d24b94443b0e5f.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/490"/>
+![Android](https://upload-images.jianshu.io/upload_images/5855162-97d24b94443b0e5f.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/490)
 Android
-</div>
 
 ### Getting started
 #### 1.安装
