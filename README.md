@@ -69,4 +69,4 @@ this.refs.waterfall.clear();
 
 
 ### Example
-点击Demo查看示例
+点击[Demo] ( https://link.jianshu.com/?t=https%3A%2F%2Fgithub.com%2Fjunhaotong%2Freact-native-waterfall%2Fblob%2Fmaster%2Fexample%2Findex.js)
