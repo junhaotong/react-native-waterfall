@@ -260,7 +260,7 @@ export default class Masonry extends React.Component {
                             renderItem={this.props.renderItem.bind(this)}/>
                     } )}
                 </View>
-                {loadMore}
+                {this.props.hasMore ? loadMore : null}
             </ScrollView>
         )
     }
