@@ -1,6 +1,6 @@
 {
   "name": "react-native-waterfall-layout",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "React Native 瀑布流组件",
   "main": "src/index.js",
   "private": false,
